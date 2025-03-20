@@ -1,9 +1,9 @@
- import pandas as pd
+import pandas as pd
 from nltk.tokenize import word_tokenize  # Ensure you import this
 
 # 1.2.1 Create a Sentiment Analysis Function
 def get_sentiment_counts(tweet_text, lexicon):
-    
+
     #This function takes the text of a tweet and returns a count of each of the 10 sentiment categories.
 
     #Parameters:
@@ -29,4 +29,3 @@ def get_sentiment_counts(tweet_text, lexicon):
             sentiment_counts[row['emotion']] += 1  # Increment the count for the emotion
 
     return sentiment_counts
-    

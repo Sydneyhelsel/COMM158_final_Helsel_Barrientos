@@ -1,5 +1,3 @@
-
-
 # 1.2.2 Apply the self-defined function to the text column of the merged data frame from #1.1.
 # Function to apply sentiment analysis (already defined)
 # Assuming 'get_sentiment_counts' and 'nrc_lexicon' are defined as previously shown.
@@ -15,4 +13,5 @@ merged_df_with_sentiments = pd.concat([combined_df, sentiment_df], axis=1)
 
 # Display the updated DataFrame
 print(merged_df_with_sentiments)
+
 

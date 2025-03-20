@@ -1,5 +1,4 @@
- 
-    #1.2 (first cleaning data)
+#1.2 (first cleaning data)
 import nltk
 !wget https://raw.githubusercontent.com/aditeyabaral/lok-sabha-election-twitter-analysis/master/NRC-Emotion-Lexicon-Wordlevel-v0.92.txt
 
@@ -38,10 +37,10 @@ combined_df = pd.concat([combined_df, emotion_columns], axis=1)
 # Display the updated DataFrame
 combined_df.head()
 
-#1.2 Now sentiment analysis 
+#1.2 Now sentiment analysis
 # Load NRC Emotion Lexicon
 nrc_lexicon = pd.read_csv("NRC-Emotion-Lexicon-Wordlevel-v0.92.txt",
-                          sep="	",
+                          sep="\t",
                           header=None,
                           names=["word", "emotion", "association"])
 
@@ -72,4 +71,3 @@ combined_df = pd.concat([combined_df, emotion_columns], axis=1)
 
 # Display the updated DataFrame
 combined_df.head()
-
