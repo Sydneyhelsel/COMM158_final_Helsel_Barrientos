@@ -1,4 +1,3 @@
-import pandas as pd
 from nltk.tokenize import word_tokenize  # Ensure you import this
 
 # 1.2.1 Create a Sentiment Analysis Function
