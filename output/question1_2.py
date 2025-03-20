@@ -24,7 +24,6 @@ def clean_text(text):
 
 #1.2 Now sentiment analysis
 # Load NRC Emotion Lexicon
-import pandas as pd
 from nltk.tokenize import word_tokenize
 nrc_lexicon = pd.read_csv("NRC-Emotion-Lexicon-Wordlevel-v0.92.txt",
                           sep="\t",
