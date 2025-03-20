@@ -22,23 +22,10 @@ def clean_text(text):
 
     return text
 
-# Apply the cleaning function to the text column
-combined_df['cleaned_text'] = combined_df['text'].apply(clean_text)
-
-# Check the cleaned text
-print(combined_df['cleaned_text'].head())
-
-# Now apply the sentiment analysis using the cleaned text
-emotion_columns = combined_df['cleaned_text'].apply(get_emotion_scores)
-
-# Combine the emotion scores with the original DataFrame
-combined_df = pd.concat([combined_df, emotion_columns], axis=1)
-
-# Display the updated DataFrame
-combined_df.head()
-
 #1.2 Now sentiment analysis
 # Load NRC Emotion Lexicon
+import pandas as pd
+from nltk.tokenize import word_tokenize
 nrc_lexicon = pd.read_csv("NRC-Emotion-Lexicon-Wordlevel-v0.92.txt",
                           sep="\t",
                           header=None,
@@ -63,11 +50,18 @@ def get_emotion_scores(text):
 
     return emotions
 
-# Apply sentiment analysis to each tweet
-emotion_columns = combined_df['text'].apply(get_emotion_scores)
+
+# Apply the cleaning function to the text column
+combined_df['cleaned_text'] = combined_df['text'].apply(clean_text)
+
+# Check the cleaned text
+print(combined_df['cleaned_text'].head())
+
+# Now apply the sentiment analysis using the cleaned text
+emotion_columns = combined_df['cleaned_text'].apply(get_emotion_scores)
 
 # Combine the emotion scores with the original DataFrame
 combined_df = pd.concat([combined_df, emotion_columns], axis=1)
 
 # Display the updated DataFrame
-combined_df.head()
+combined_df
