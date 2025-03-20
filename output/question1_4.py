@@ -31,8 +31,9 @@ print(f"Visualizing engagement metrics for selected emotions based on 1.3.1 find
 # Create a figure with 2 subplots
 fig, axes = plt.subplots(1, 2, figsize=(18, 6))
 
-# Define colors for candidates
-colors = {'Hillary Clinton': 'blue', 'Donald Trump': 'red'}
+# Define explicit colors for candidates
+clinton_color = 'blue'
+trump_color = 'red'
 
 # Group the data by candidate and calculate total engagement metrics for tweets with these emotions
 engagement_by_candidate = {}
@@ -70,8 +71,8 @@ width = 0.35
 clinton_likes = [engagement_by_candidate[emotion]['likes'][engagement_by_candidate[emotion]['likes']['candidate'] == 'Hillary Clinton']['count'].values[0] for emotion in selected_emotions]
 trump_likes = [engagement_by_candidate[emotion]['likes'][engagement_by_candidate[emotion]['likes']['candidate'] == 'Donald Trump']['count'].values[0] for emotion in selected_emotions]
 
-axes[0].bar(x_pos - width/2, clinton_likes, width, label='Hillary Clinton', color='blue')
-axes[0].bar(x_pos + width/2, trump_likes, width, label='Donald Trump', color='red')
+axes[0].bar(x_pos - width/2, clinton_likes, width, label='Hillary Clinton', color=clinton_color)
+axes[0].bar(x_pos + width/2, trump_likes, width, label='Donald Trump', color=trump_color)
 axes[0].set_title('Total Likes by Emotion Category', fontsize=14)
 axes[0].set_ylabel('Total Likes', fontsize=12)
 axes[0].set_xticks(x_pos)
@@ -82,8 +83,8 @@ axes[0].legend()
 clinton_retweets = [engagement_by_candidate[emotion]['retweets'][engagement_by_candidate[emotion]['retweets']['candidate'] == 'Hillary Clinton']['count'].values[0] for emotion in selected_emotions]
 trump_retweets = [engagement_by_candidate[emotion]['retweets'][engagement_by_candidate[emotion]['retweets']['candidate'] == 'Donald Trump']['count'].values[0] for emotion in selected_emotions]
 
-axes[1].bar(x_pos - width/2, clinton_retweets, width, label='Hillary Clinton', color='blue')
-axes[1].bar(x_pos + width/2, trump_retweets, width, label='Donald Trump', color='red')
+axes[1].bar(x_pos - width/2, clinton_retweets, width, label='Hillary Clinton', color=clinton_color)
+axes[1].bar(x_pos + width/2, trump_retweets, width, label='Donald Trump', color=trump_color)
 axes[1].set_title('Total Retweets by Emotion Category', fontsize=14)
 axes[1].set_ylabel('Total Retweets', fontsize=12)
 axes[1].set_xticks(x_pos)
