@@ -2,9 +2,9 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
+import re
 
-# Load the complete data
+# Load data
 trump_tweets = pd.read_csv('data/trump_encoded.csv')
 clinton_tweets = pd.read_csv('data/clinton_encoded.csv')
 
@@ -15,18 +15,58 @@ clinton_tweets['candidate'] = 'Hillary Clinton'
 # Combine DataFrames
 combined_df = pd.concat([trump_tweets, clinton_tweets], ignore_index=True)
 
-# List of all emotion categories
-all_emotion_categories = ['anger', 'anticipation', 'disgust', 'fear', 'joy', 
-                     'sadness', 'surprise', 'trust', 'positive', 'negative']
+# Clean text function
+def clean_text(text):
+    # Remove mentions (@username) and hashtags (#hashtag)
+    text = re.sub(r'@[\w]+', '', text)  # Remove mentions
+    text = re.sub(r'#[\w]+', '', text)  # Remove hashtags
+    # Remove non-alphabetical characters (punctuation, numbers, etc.)
+    text = re.sub(r'[^a-zA-Z\s]', '', text)  # Only keep alphabets and spaces
+    # Remove extra spaces
+    text = re.sub(r'\s+', ' ', text).strip().lower()
+    return text
 
-# For demonstration, create random sentiment scores for all emotions
-for emotion in all_emotion_categories:
-    combined_df[emotion] = np.random.randint(0, 5, size=len(combined_df))
+# Load lexicon
+nrc_lexicon = pd.read_csv("NRC-Emotion-Lexicon-Wordlevel-v0.92.txt", 
+                         sep="\t", 
+                         header=None, 
+                         names=["word", "emotion", "association"])
+nrc_lexicon = nrc_lexicon[nrc_lexicon["association"] == 1].drop(columns=["association"])
 
-# Select two interesting emotions based on 1.3.1 analysis
-# These selections are explained in detail in question1_3_2.py
-selected_emotions = ['anger', 'joy']
-print(f"Visualizing engagement metrics for selected emotions based on 1.3.1 findings: {selected_emotions}")
+def get_sentiment_counts(tweet_text, lexicon):
+    # Clean the text
+    cleaned_text = clean_text(str(tweet_text))
+    
+    # Use simple split as the TA confirmed is acceptable
+    words = cleaned_text.split()
+    
+    # Initialize counts for each emotion
+    sentiment_counts = {emotion: 0 for emotion in lexicon['emotion'].unique()}
+    
+    # Count emotions for each word, allowing duplicates
+    for word in words:
+        # Find matching emotions for this word
+        matches = lexicon[lexicon['word'] == word]
+        for _, row in matches.iterrows():
+            sentiment_counts[row['emotion']] += 1
+    
+    return sentiment_counts
+
+# First, create a cleaned text column
+combined_df['cleaned_text'] = combined_df['text'].apply(clean_text)
+
+# Apply the sentiment analysis function to cleaned text
+sentiment_counts = combined_df['cleaned_text'].apply(lambda tweet: get_sentiment_counts(tweet, nrc_lexicon))
+
+# Convert the dictionary of sentiment counts into separate columns
+sentiment_df = pd.DataFrame(list(sentiment_counts))
+
+# Merge the sentiment columns with the original DataFrame
+merged_df_with_sentiments = pd.concat([combined_df, sentiment_df], axis=1)
+
+# Selected emotions for visualization based on 1.3.1 and 1.3.2 analysis
+selected_emotions = ['fear', 'disgust']
+print(f"Visualizing engagement metrics for selected emotions: {selected_emotions}")
 
 # Create a figure with 2 subplots
 fig, axes = plt.subplots(1, 2, figsize=(18, 6))
@@ -44,9 +84,9 @@ for emotion in selected_emotions:
     retweets_data = pd.DataFrame(columns=['candidate', 'count'])
     
     # Calculate engagement metrics for each candidate
-    for candidate in combined_df['candidate'].unique():
+    for candidate in merged_df_with_sentiments['candidate'].unique():
         # Get tweets for this candidate that have this emotion
-        candidate_tweets = combined_df[combined_df['candidate'] == candidate]
+        candidate_tweets = merged_df_with_sentiments[merged_df_with_sentiments['candidate'] == candidate]
         emotion_tweets = candidate_tweets[candidate_tweets[emotion] > 0]
         
         # Calculate total likes and retweets
