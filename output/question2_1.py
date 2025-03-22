@@ -7,14 +7,8 @@ import seaborn as sns
 # 2.1 Research Question: Is there a relationship between emotion categories 
 # and the number of retweets or favorites?
 
-# Use the merged DataFrame with sentiment scores from part 1.4
-# Assuming we're working with the merged_df_with_sentiments from the previous parts
-
-# Load data with sentiment scores (run parts 1.1-1.4 first)
-# This loads the data and executes the previous code
-exec(open('output/question1_4.py').read())
-
-# Now we can access the merged_df_with_sentiments variable
+# This code assumes that parts 1.1-1.4 have been run first
+# and that the merged_df_with_sentiments variable exists
 
 # Define emotion categories and engagement metrics
 emotion_categories = ['anger', 'anticipation', 'disgust', 'fear', 'joy', 
@@ -40,7 +34,8 @@ plt.savefig('output/emotion_engagement_correlation.png')
 # Analyze correlations separately for each candidate
 fig, axes = plt.subplots(1, 2, figsize=(20, 8))
 
-for i, candidate in enumerate(merged_df_with_sentiments['candidate'].unique()):
+candidates = merged_df_with_sentiments['candidate'].unique()
+for i, candidate in enumerate(candidates):
     # Filter data for this candidate
     candidate_df = merged_df_with_sentiments[merged_df_with_sentiments['candidate'] == candidate]
     
@@ -60,11 +55,6 @@ for i, candidate in enumerate(merged_df_with_sentiments['candidate'].unique()):
 plt.tight_layout()
 plt.savefig('output/emotion_engagement_correlation_by_candidate.png')
 
-# Write your paragraph analysis here:
 """
-ANALYSIS PARAGRAPH:
-[Your analysis should go here. Discuss the relationship between emotion categories and 
-engagement metrics (likes and retweets). Note any interesting patterns or differences 
-between candidates. Interpret what the correlations mean in the context of political 
-discourse on Twitter during the election.]
+The heatmap analysis reveals slight relationships between emotional expressions in tweets and engagement, specifically favorite and retweet counts. Tweets expressing emotions such as disgust and negativity are slightly slightly correlated with higher engagement, suggesting people may respond more actively to emotionally charged content, specifically negatively charged. Tweets characterized by anticipation, joy, surprise, or positive emotions exhibit minor negative correlations, implying these emotions might be marginally less effective at driving engagement. Emotions such as anger, fear, sadness, and trust don't seem to have an impact on engagement. Overall, while these correlations are small, they indicate that tweets with a negative or intense sentiment, particularly with emotions of disgust, may be somewhat more effective in eliciting likes and retweets.
 """
