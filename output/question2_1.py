@@ -56,5 +56,9 @@ plt.tight_layout()
 plt.savefig('output/emotion_engagement_correlation_by_candidate.png')
 
 """
-The heatmap analysis reveals slight relationships between emotional expressions in tweets and engagement, specifically favorite and retweet counts. Tweets expressing emotions such as disgust and negativity are slightly slightly correlated with higher engagement, suggesting people may respond more actively to emotionally charged content, specifically negatively charged. Tweets characterized by anticipation, joy, surprise, or positive emotions exhibit minor negative correlations, implying these emotions might be marginally less effective at driving engagement. Emotions such as anger, fear, sadness, and trust don't seem to have an impact on engagement. Overall, while these correlations are small, they indicate that tweets with a negative or intense sentiment, particularly with emotions of disgust, may be somewhat more effective in eliciting likes and retweets.
+The heatmap analysis reveals slight relationships between emotional expressions in tweets and engagement, specifically favorite and retweet counts. 
+Tweets expressing emotions such as disgust and negativity are slightly slightly correlated with higher engagement, suggesting people may respond more actively to emotionally charged content, 
+specifically negatively charged. Tweets characterized by anticipation, joy, surprise, or positive emotions exhibit minor negative correlations, 
+implying these emotions might be marginally less effective at driving engagement. Emotions such as anger, fear, sadness, and trust don't seem to have an impact on engagement. 
+Overall, while these correlations are small, they indicate that tweets with a negative or intense sentiment, particularly with emotions of disgust, may be somewhat more effective in eliciting likes and retweets.
 """
